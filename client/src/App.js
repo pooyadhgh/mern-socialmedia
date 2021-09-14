@@ -10,7 +10,6 @@ import Users from './user/pages/Users';
 function App() {
   const authCtx = useContext(AuthContext);
   let routes;
-
   if (authCtx.isLoggedIn) {
     routes = (
       <Switch>
