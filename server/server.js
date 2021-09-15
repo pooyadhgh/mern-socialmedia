@@ -1,6 +1,7 @@
-// const dotenv = require('dotenv').config();
+const dotenv = require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const postsRoutes = require('./routes/posts');
 const usersRoutes = require('./routes/users');
@@ -30,4 +31,10 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || 'Error' });
 });
 
-app.listen(process.env.PORT || 8080);
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    app.listen(process.env.PORT || 8080);
+    console.log('Connected');
+  })
+  .catch(error => console.log(error));
