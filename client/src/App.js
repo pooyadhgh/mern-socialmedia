@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import NewPost from './posts/pages/NewPost';
 import UserPosts from './posts/pages/UserPosts';
-import MainNavigation from './shared/components/Navigation/MainNavigation';
+import Layout from './shared/components/Layout/Layout';
 import AuthContext from './shared/context/auth-context';
 import Auth from './user/pages/Auth';
 import Users from './user/pages/Users';
@@ -56,12 +56,7 @@ function App() {
     );
   }
 
-  return (
-    <>
-      <MainNavigation />
-      {routes}
-    </>
-  );
+  return <Layout>{routes}</Layout>;
 }
 
 export default App;
