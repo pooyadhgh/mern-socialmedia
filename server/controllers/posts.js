@@ -19,6 +19,7 @@ const getPostById = async (req, res, next) => {
     const error = new HttpError('Post Not Found', 404);
     return next(error);
   }
+  // TODO: Delete password from user document
 
   res.json({ post: post });
 };
@@ -39,12 +40,13 @@ const getPostByUserId = async (req, res, next) => {
     const error = new HttpError('Post Not Found', 404);
     return next(error);
   }
+  // TODO: Delete password from user document
 
   res.json({ posts: posts });
 };
 
 const createPost = async (req, res, next) => {
-  // Validating request body
+  // Validate request body
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     throw new HttpError('Invalid Input', 422);
@@ -83,7 +85,7 @@ const createPost = async (req, res, next) => {
     const error = new HttpError('Creating Post Failed!', 500);
     return next(error);
   }
-
+  // TODO: Delete password from user document
   res
     .status(201)
     .json({ message: 'Post Created Successfully', post: createdPost });
@@ -103,18 +105,21 @@ const deletePostById = async (req, res, next) => {
 
   try {
     await post.remove();
-    // Deleting post from user model
+    // Delete post from user model
     post.creator.posts.pull(post);
     await post.creator.save();
   } catch (err) {
     const error = new HttpError('Could Not Delete the Post', 500);
     return next(error);
   }
+  // TODO: Delete password from user document
 
   res.status(200).json({ message: 'Post Deleted', post: post });
 };
 
-exports.getPostById = getPostById;
-exports.getPostByUserId = getPostByUserId;
-exports.createPost = createPost;
-exports.deletePostById = deletePostById;
+module.exports = {
+  getPostById: getPostById,
+  getPostByUserId: getPostByUserId,
+  createPost: createPost,
+  deletePostById: deletePostById,
+};

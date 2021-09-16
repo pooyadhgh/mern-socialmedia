@@ -1,4 +1,4 @@
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -11,7 +11,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-// Registering routes
+// Register routes
 app.use('/api/posts', postsRoutes);
 app.use('/api/users', usersRoutes);
 

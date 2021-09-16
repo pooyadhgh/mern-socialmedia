@@ -15,7 +15,7 @@ const getUsers = async (req, res, next) => {
 };
 
 const signup = async (req, res, next) => {
-  // Validating request body
+  // Validate request body
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     throw new HttpError('Invalid Input', 422);
@@ -50,6 +50,7 @@ const signup = async (req, res, next) => {
     const error = new HttpError('Signup Failed', 500);
     return next(error);
   }
+  // TODO: Delete password from user document
 
   res.status(201).json({ message: 'User Signedup', user: createdUser });
 };
@@ -70,10 +71,9 @@ const login = async (req, res, next) => {
   if (!existingUser || existingUser.password !== password) {
     throw new HttpError('Not a Valid User', 401);
   }
+  // TODO: Delete password from user document
 
   res.json({ message: 'User Logged in', user: existingUser });
 };
 
-exports.getUsers = getUsers;
-exports.signup = signup;
-exports.login = login;
+module.exports = { getUsers: getUsers, signup: signup, login: login };
