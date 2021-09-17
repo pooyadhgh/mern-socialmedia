@@ -1,0 +1,29 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80%;
+}
+
+.navbar li {
+  margin: 0 1rem;
+  list-style: none;
+}
+
+.navbar li:last-child {
+  margin-left: auto;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem;
+}
+
+.navbar a:hover {
+  border: 1px solid #cfc8b5;
+  background-color: #cfc8b5;
+  border-radius: 2px;
+  padding: 0.5rem;
+  color: #004369;
+}

@@ -1,4 +1,4 @@
-import './Button.css';
+import './Button.module.css';
 import { Link } from 'react-router-dom';
 
 const Button = props => {

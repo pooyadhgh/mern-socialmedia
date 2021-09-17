@@ -13,21 +13,10 @@ function App() {
   if (authCtx.isLoggedIn) {
     routes = (
       <Switch>
-        <Route path="/" exact>
-          <Users />
-        </Route>
-
-        <Route path="/:userId/posts">
-          <UserPosts />
-        </Route>
-
-        <Route path="/posts/new" exact>
-          <NewPost />
-        </Route>
-
-        <Route path="/auth">
-          <Auth />
-        </Route>
+        <Route path="/" component={Users} exact />
+        <Route path="/:userId/posts" component={UserPosts} />
+        <Route path="/posts/new" component={NewPost} exact />
+        <Route path="/auth" component={Auth} />
 
         <Route path="*">
           <Redirect to="/" />
@@ -37,17 +26,9 @@ function App() {
   } else {
     routes = (
       <Switch>
-        <Route path="/" exact>
-          <Users />
-        </Route>
-
-        <Route path="/:userId/posts">
-          <UserPosts />
-        </Route>
-
-        <Route path="/auth">
-          <Auth />
-        </Route>
+        <Route path="/" component={Users} exact />
+        <Route path="/:userId/posts" component={UserPosts} />
+        <Route path="/auth" component={Auth} />
 
         <Route path="*">
           <Redirect to="/auth" />

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import Button from '../../shared/components/FormElements/Button';
 import AuthContext from '../../shared/context/auth-context';
-import './PostItem.css';
+import './PostItem.module.css';
 
 const PostItem = props => {
   const authCtx = useContext(AuthContext);

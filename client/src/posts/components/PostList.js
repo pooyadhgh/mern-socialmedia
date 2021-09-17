@@ -1,10 +1,10 @@
 import PostItem from './PostItem';
-import './PostList.css';
+import classes from './PostList.module.css';
 
 const PostList = props => {
   if (props.items.length === 0) {
     return (
-      <div className="center">
+      <div className={classes.center}>
         <h2>No Posts Found</h2>
       </div>
     );

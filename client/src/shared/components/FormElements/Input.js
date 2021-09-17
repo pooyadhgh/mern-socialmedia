@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from 'react';
 import { validate } from '../../util/validators';
-import './Input.css';
+import './Input.module.css';
 
 const initialState = { value: '', isValid: false, isBlured: false };
 

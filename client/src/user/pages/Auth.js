@@ -4,7 +4,7 @@ import Input from '../../shared/components/FormElements/Input';
 import AuthContext from '../../shared/context/auth-context';
 import { useFrom } from '../../shared/hooks/form-hook';
 import { validatorRequire } from '../../shared/util/validators';
-import './Auth.css';
+import './Auth.module.css';
 
 const Auth = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
