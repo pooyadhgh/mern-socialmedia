@@ -1,6 +1,8 @@
 @font-face {
-  font-family: Ubuntu-Regular;
-  src: '../../assets/fonts/Ubuntu-Regular.ttf';
+  font-family: 'OpenSans-Regular';
+  src: local('OpenSans-Regular'),
+    url('../../../fonts/OpenSans-Regular.ttf') format('truetype');
+  font-weight: bold;
 }
 
 /* Box sizing rules */
@@ -22,9 +24,9 @@ blockquote,
 dl,
 dd {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'OpenSans-Regular', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -41,6 +43,7 @@ html:focus-within {
 }
 
 /* Set core body defaults */
+main,
 body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;

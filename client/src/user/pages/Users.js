@@ -21,7 +21,11 @@ const Users = () => {
       posts: 22,
     },
   ];
-  return <UsersList items={users} />;
+  return (
+    <>
+      <UsersList items={users} />
+    </>
+  );
 };
 
 export default Users;
