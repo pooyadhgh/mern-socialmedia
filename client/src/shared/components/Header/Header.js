@@ -8,7 +8,7 @@ const Header = () => {
       <h1>
         <Link to="/">MERN - SocialMedia</Link>
       </h1>
-      <nav className={classes.nav}>
+      <nav className={classes['nav-bar']}>
         <NavLinks />
       </nav>
     </header>

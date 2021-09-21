@@ -11,12 +11,12 @@ const UserItem = props => {
         </figure>
       </Link>
 
-      <div className={classes['user-item_info']}>
+      <div className={classes['user-item__info']}>
         <Link to={`/${props.id}/posts`}>
           <h2>{props.name}</h2>
         </Link>
 
-        <div className={classes['user-item_info__posts']}>
+        <div className={classes['user-item__info__posts']}>
           <i class="fa fa-comment"></i>
           <span> Posts: </span> {props.postCount}
         </div>

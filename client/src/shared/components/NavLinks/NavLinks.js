@@ -18,7 +18,7 @@ const NavLinks = () => {
         onClick={() => setNavbarIsShown(false)}
         className={
           navbarIsShown
-            ? `${classes['nav-links']} ${classes['nav-links_show']}`
+            ? `${classes['nav-links']} ${classes['nav-links__show']}`
             : `${classes['nav-links']}`
         }
       >
@@ -49,7 +49,7 @@ const NavLinks = () => {
           </li>
         )}
       </ul>
-      <div className={classes['nav-links_toggle']} onClick={toggleHandler}>
+      <div className={classes['nav-links__toggle']} onClick={toggleHandler}>
         {navbarIsShown ? (
           <i className="fa fa-times"></i>
         ) : (

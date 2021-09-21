@@ -8,16 +8,16 @@ const PostItem = props => {
   const authCtx = useContext(AuthContext);
   return (
     <Card className={classes['post-item']}>
-      <figure className={classes['post-item_figure']}>
+      <figure className={classes['post-item__figure']}>
         <img src={props.image} alt={props.title} />
       </figure>
-      <div className={classes['post-item_content']}>
+      <div className={classes['post-item__content']}>
         <h2>{props.title}</h2>
         <p>{props.description}</p>
       </div>
       {authCtx.isLoggedIn && (
-        <div className={classes['post-item_controlls']}>
-          <Button className={classes['post-item_controlls__button']}>
+        <div className={classes['post-item__controlls']}>
+          <Button className={classes['post-item__controlls__button']}>
             Delete
           </Button>
         </div>

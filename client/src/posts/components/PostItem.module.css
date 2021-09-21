@@ -5,40 +5,40 @@
   flex-wrap: wrap;
 }
 
-.post-item_figure {
+.post-item__figure {
   display: block;
   margin: auto;
 }
 
-.post-item_figure img {
+.post-item__figure img {
   max-width: 350px;
   border-radius: 2px;
 }
 
-.post-item_content {
+.post-item__content {
   margin: 1rem;
 }
 
-.post-item_content a {
+.post-item__content a {
   text-decoration: none;
 }
 
-.post-item_content a:hover {
+.post-item__content a:hover {
   text-decoration: underline;
 }
 
-.post-item_controlls {
+.post-item__controlls {
   margin: 1rem;
   align-self: flex-end;
 }
 
-.post-item_controlls__button {
+.post-item__controlls__button {
   border: 1px solid #db1f48;
   background-color: #db1f48;
   color: #fff;
 }
 
-.post-item_controlls__button:hover {
+.post-item__controlls__button:hover {
   background-color: #db1f48dc;
 }
 
