@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from 'react';
 import { validate } from '../../util/validators';
-import './Input.module.css';
+import classes from './Input.module.css';
 
 const initialState = { value: '', isValid: false, isBlured: false };
 
@@ -55,6 +55,7 @@ const Input = props => {
         placeholder={props.placeholder}
         onChange={changeHandler}
         onBlur={blurHandler}
+        className={classes.input}
       />
     ) : (
       <textarea
@@ -64,13 +65,16 @@ const Input = props => {
         rows={props.rows || 3}
         onChange={changeHandler}
         onBlur={blurHandler}
+        className={classes.textarea}
       />
     );
 
   return (
-    <div className={`form-control ${props.class}`}>
+    <div className={props.className}>
       {element}
-      {!inputState.isValid && inputState.isBlured && <p>{props.errorText}</p>}
+      {!inputState.isValid && inputState.isBlured && (
+        <p className={classes['error-text']}>{props.errorText}</p>
+      )}
     </div>
   );
 };

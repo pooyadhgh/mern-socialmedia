@@ -2,7 +2,8 @@
   font-family: 'OpenSans-Regular';
   src: local('OpenSans-Regular'),
     url('../../../fonts/OpenSans-Regular.ttf') format('truetype');
-  font-weight: bold;
+  font-style: normal;
+  font-weight: 400;
 }
 
 /* Box sizing rules */
@@ -48,6 +49,14 @@ body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 2rem;
 }
 
 /* A elements that don't have a class get default styles */

@@ -1,25 +1,28 @@
 import { useContext } from 'react';
-import Button from '../../shared/components/FormElements/Button';
+import Card from '../../shared/components/Card/Card';
+import Button from '../../shared/components/Button/Button';
 import AuthContext from '../../shared/context/auth-context';
-import './PostItem.module.css';
+import classes from './PostItem.module.css';
 
 const PostItem = props => {
   const authCtx = useContext(AuthContext);
   return (
-    <li>
-      <div>
+    <Card className={classes['post-item']}>
+      <figure className={classes['post-item_figure']}>
         <img src={props.image} alt={props.title} />
-      </div>
-      <div>
+      </figure>
+      <div className={classes['post-item_content']}>
         <h2>{props.title}</h2>
-        <h3>{props.description}</h3>
+        <p>{props.description}</p>
       </div>
       {authCtx.isLoggedIn && (
-        <div>
-          <Button>Delete</Button>
+        <div className={classes['post-item_controlls']}>
+          <Button className={classes['post-item_controlls__button']}>
+            Delete
+          </Button>
         </div>
       )}
-    </li>
+    </Card>
   );
 };
 

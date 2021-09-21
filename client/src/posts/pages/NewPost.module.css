@@ -11,11 +11,6 @@
   flex-wrap: wrap;
 }
 
-.card u:hover {
-  text-decoration: none;
-  cursor: pointer;
-}
-
 .form {
   display: flex;
   flex-direction: column;
@@ -33,6 +28,12 @@
 
 .button:hover {
   background-color: #01959ad7;
+}
+
+.button:disabled {
+  background-color: #01959a8c;
+  border: 1px solid #01959a8c;
+  cursor: not-allowed;
 }
 
 @media screen and (min-width: 768px) {

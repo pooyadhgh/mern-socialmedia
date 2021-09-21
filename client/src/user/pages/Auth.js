@@ -1,10 +1,11 @@
 import { useContext, useState } from 'react';
-import Button from '../../shared/components/FormElements/Button';
+import Button from '../../shared/components/Button/Button';
+import Card from '../../shared/components/Card/Card';
 import Input from '../../shared/components/FormElements/Input';
 import AuthContext from '../../shared/context/auth-context';
 import { useFrom } from '../../shared/hooks/form-hook';
 import { validatorRequire } from '../../shared/util/validators';
-import './Auth.module.css';
+import classes from './Auth.module.css';
 
 const Auth = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -47,9 +48,9 @@ const Auth = () => {
     console.log(formState.inputs);
   };
   return (
-    <div>
+    <Card className={classes.card}>
       <h1>Login</h1>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={submitHandler} className={classes.form}>
         {!isLoginMode && (
           <Input
             element="input"
@@ -81,7 +82,11 @@ const Auth = () => {
           onInput={inputHandler}
         />
 
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button
+          className={classes.button}
+          type="submit"
+          disabled={!formState.isValid}
+        >
           {isLoginMode ? 'Login' : 'Signup'}
         </Button>
       </form>
@@ -89,15 +94,19 @@ const Auth = () => {
       {isLoginMode ? (
         <p>
           Not already a member?
-          <strong onClick={switchModeHandler}> Click to Register now</strong>
+          <u>
+            <strong onClick={switchModeHandler}> Click to Register now </strong>
+          </u>
         </p>
       ) : (
         <p>
           Already have an account?
-          <strong onClick={switchModeHandler}> Click to Login </strong>
+          <u>
+            <strong onClick={switchModeHandler}> Click to Login </strong>
+          </u>
         </p>
       )}
-    </div>
+    </Card>
   );
 };
 

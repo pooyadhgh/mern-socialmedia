@@ -1,17 +1,27 @@
 import { Link } from 'react-router-dom';
-import './UserItem.module.css';
+import Card from '../../shared/components/Card/Card';
+import classes from './UserItem.module.css';
 
 const UserItem = props => {
   return (
-    <li>
+    <Card className={classes['user-item']}>
       <Link to={`/${props.id}/posts`}>
-        <div>
+        <figure>
           <img src={props.image} alt={props.name} />
-          <h2>{props.name}</h2>
-          <h3>{props.postCount}</h3>
-        </div>
+        </figure>
       </Link>
-    </li>
+
+      <div className={classes['user-item_info']}>
+        <Link to={`/${props.id}/posts`}>
+          <h2>{props.name}</h2>
+        </Link>
+
+        <div className={classes['user-item_info__posts']}>
+          <i class="fa fa-comment"></i>
+          <span> Posts: </span> {props.postCount}
+        </div>
+      </div>
+    </Card>
   );
 };
 

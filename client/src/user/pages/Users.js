@@ -5,19 +5,19 @@ const Users = () => {
     {
       id: 1,
       name: 'pooya',
-      image: 'imgUrl',
+      image: 'https://avatars.githubusercontent.com/u/73394809?v=4',
       posts: 25,
     },
     {
       id: 2,
       name: 'mamad',
-      image: 'imgUrl',
+      image: 'https://avatars.githubusercontent.com/u/73394809?v=4',
       posts: 2,
     },
     {
       id: 3,
       name: 'asal',
-      image: 'imgUrl',
+      image: 'https://avatars.githubusercontent.com/u/73394809?v=4',
       posts: 22,
     },
   ];

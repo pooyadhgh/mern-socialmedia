@@ -1,0 +1,39 @@
+.input {
+  border: 1px solid #01949a;
+  border-radius: 3px;
+  margin: 0.2rem 0;
+  padding: 0.2rem 0.5rem;
+  width: 50vw;
+}
+
+.input:focus {
+  outline: none;
+  border: 2px solid #01949a;
+}
+
+.textarea {
+  border: 1px solid #01949a;
+  border-radius: 3px;
+  margin: 0.2rem 0;
+  padding: 0.2rem 0.5rem;
+  width: 50vw;
+}
+
+.textarea:focus {
+  outline: none;
+  border: 2px solid #01949a;
+}
+
+.error-text {
+  color: #ff0000;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+@media screen and (min-width: 768px) {
+  .input {
+    width: 20vw;
+  }
+  .textarea {
+    width: 20vw;
+  }
+}

@@ -10,19 +10,17 @@ const UsersList = props => {
     );
   }
   return (
-    <div>
-      <ul>
-        {props.items.map(user => (
-          <UserItem
-            key={user.id}
-            id={user.id}
-            image={user.image}
-            name={user.name}
-            postCount={user.posts}
-          />
-        ))}
-      </ul>
-    </div>
+    <section className={classes['users-list']}>
+      {props.items.map(user => (
+        <UserItem
+          key={user.id}
+          id={user.id}
+          image={user.image}
+          name={user.name}
+          postCount={user.posts}
+        />
+      ))}
+    </section>
   );
 };
 

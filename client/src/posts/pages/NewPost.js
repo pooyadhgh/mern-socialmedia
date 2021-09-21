@@ -1,7 +1,9 @@
-import Button from '../../shared/components/FormElements/Button';
+import Button from '../../shared/components/Button/Button';
+import Card from '../../shared/components/Card/Card';
 import Input from '../../shared/components/FormElements/Input';
 import { useFrom } from '../../shared/hooks/form-hook';
 import { validatorRequire } from '../../shared/util/validators';
+import classes from './NewPost.module.css';
 
 const NewPost = () => {
   const [formState, inputHandler] = useFrom(
@@ -19,9 +21,9 @@ const NewPost = () => {
   };
 
   return (
-    <div>
-      <h2>New Post</h2>
-      <form onSubmit={submitHandler}>
+    <Card className={classes.card}>
+      <h1>New Post</h1>
+      <form onSubmit={submitHandler} className={classes.form}>
         <Input
           id="title"
           element="input"
@@ -40,11 +42,15 @@ const NewPost = () => {
           validators={[validatorRequire()]}
           onInput={inputHandler}
         />
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button
+          className={classes.button}
+          type="submit"
+          disabled={!formState.isValid}
+        >
           Add Post
         </Button>
       </form>
-    </div>
+    </Card>
   );
 };
 

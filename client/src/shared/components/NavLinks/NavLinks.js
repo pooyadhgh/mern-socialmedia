@@ -1,23 +1,25 @@
 import { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AuthContext from '../../context/auth-context';
+import Button from '../Button/Button';
 import classes from './NavLinks.module.css';
 
 const NavLinks = () => {
   const authCtx = useContext(AuthContext);
   const [navbarIsShown, setNavbarIsShown] = useState(false);
-  console.log(authCtx);
+
   const toggleHandler = () => {
-    setNavbarIsShown(prevState => !prevState);
+    setNavbarIsShown(!navbarIsShown);
   };
+
   return (
     <>
       <ul
-        onClick={toggleHandler}
+        onClick={() => setNavbarIsShown(false)}
         className={
           navbarIsShown
-            ? `${classes.navlinks} ${classes.navlinks_show}`
-            : `${classes.navlinks}`
+            ? `${classes['nav-links']} ${classes['nav-links_show']}`
+            : `${classes['nav-links']}`
         }
       >
         <li>
@@ -37,17 +39,17 @@ const NavLinks = () => {
 
         {authCtx.isLoggedIn && (
           <li>
-            <button onClick={authCtx.logout}>Logout</button>
+            <Button onClick={authCtx.logout}>Logout</Button>
           </li>
         )}
 
         {!authCtx.isLoggedIn && (
           <li>
-            <NavLink to="/auth">Login</NavLink>
+            <Button to="/auth">Login</Button>
           </li>
         )}
       </ul>
-      <div className={classes.toggle} onClick={toggleHandler}>
+      <div className={classes['nav-links_toggle']} onClick={toggleHandler}>
         {navbarIsShown ? (
           <i className="fa fa-times"></i>
         ) : (
