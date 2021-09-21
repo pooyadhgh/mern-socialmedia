@@ -17,7 +17,7 @@ const UserItem = props => {
         </Link>
 
         <div className={classes['user-item__info__posts']}>
-          <i class="fa fa-comment"></i>
+          <i className="fa fa-comment"></i>
           <span> Posts: </span> {props.postCount}
         </div>
       </div>

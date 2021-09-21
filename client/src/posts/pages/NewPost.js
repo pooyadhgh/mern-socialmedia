@@ -1,9 +1,13 @@
+import { useContext } from 'react';
 import Button from '../../shared/components/Button/Button';
 import Card from '../../shared/components/Card/Card';
 import Input from '../../shared/components/FormElements/Input';
 import { useFrom } from '../../shared/hooks/form-hook';
+import { useHttpclient } from '../../shared/hooks/http-hook';
 import { validatorRequire } from '../../shared/util/validators';
+import AuthContext from '../../shared/context/auth-context';
 import classes from './NewPost.module.css';
+import { useHistory } from 'react-router';
 
 const NewPost = () => {
   const [formState, inputHandler] = useFrom(
@@ -14,10 +18,30 @@ const NewPost = () => {
     false
   );
 
-  const submitHandler = event => {
+  const { sendRequest } = useHttpclient();
+  const authCtx = useContext(AuthContext);
+  const history = useHistory();
+
+  console.log(authCtx.token);
+
+  const submitHandler = async event => {
     event.preventDefault();
-    // commiunicating with server...
-    console.log(formState.inputs);
+    try {
+      await sendRequest(
+        'http://localhost:8080/api/posts',
+        'POST',
+        JSON.stringify({
+          title: formState.inputs.title.value,
+          description: formState.inputs.description.value,
+          creator: authCtx.token,
+        }),
+        { 'Content-Type': 'application/json' }
+      );
+
+      history.push('/');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

@@ -1,15 +1,19 @@
 import { useContext, useState } from 'react';
+import { useHistory } from 'react-router';
 import Button from '../../shared/components/Button/Button';
 import Card from '../../shared/components/Card/Card';
 import Input from '../../shared/components/FormElements/Input';
 import AuthContext from '../../shared/context/auth-context';
 import { useFrom } from '../../shared/hooks/form-hook';
+import { useHttpclient } from '../../shared/hooks/http-hook';
 import { validatorRequire } from '../../shared/util/validators';
 import classes from './Auth.module.css';
 
 const Auth = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const authCtx = useContext(AuthContext);
+  const { sendRequest } = useHttpclient();
+  const history = useHistory();
 
   const [formState, inputHandler, setFormData] = useFrom(
     {
@@ -41,11 +45,43 @@ const Auth = () => {
     setIsLoginMode(prevMode => !prevMode);
   };
 
-  const submitHandler = event => {
+  const submitHandler = async event => {
     event.preventDefault();
-    // commiunicating with server...
-    authCtx.login('dummyToken');
-    console.log(formState.inputs);
+    if (isLoginMode) {
+      try {
+        const responseData = await sendRequest(
+          'http://localhost:8080/api/users/login',
+          'POST',
+          JSON.stringify({
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+          { 'Content-Type': 'application/json' }
+        );
+        authCtx.login(responseData.user._id);
+        history.push('/');
+      } catch (err) {
+        throw err;
+      }
+    } else {
+      try {
+        const responseData = await sendRequest(
+          'http://localhost:8080/api/users/signup',
+          'POST',
+          JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+          { 'Content-Type': 'application/json' }
+        );
+
+        authCtx.login(responseData.user._id);
+        history.push('/');
+      } catch (err) {
+        throw err;
+      }
+    }
   };
   return (
     <Card className={classes.card}>

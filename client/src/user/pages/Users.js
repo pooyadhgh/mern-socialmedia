@@ -1,29 +1,29 @@
+import { useEffect, useState } from 'react';
+import { useHttpclient } from '../../shared/hooks/http-hook';
 import UsersList from '../components/UsersList';
 
 const Users = () => {
-  const users = [
-    {
-      id: 1,
-      name: 'pooya',
-      image: 'https://avatars.githubusercontent.com/u/73394809?v=4',
-      posts: 25,
-    },
-    {
-      id: 2,
-      name: 'mamad',
-      image: 'https://avatars.githubusercontent.com/u/73394809?v=4',
-      posts: 2,
-    },
-    {
-      id: 3,
-      name: 'asal',
-      image: 'https://avatars.githubusercontent.com/u/73394809?v=4',
-      posts: 22,
-    },
-  ];
+  const [users, setUsers] = useState([]);
+  const { sendRequest } = useHttpclient();
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const responseData = await sendRequest(
+          'http://localhost:8080/api/users'
+        );
+        setUsers(responseData.users);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchUsers();
+  }, [sendRequest]);
+
   return (
     <>
-      <UsersList items={users} />
+      {users.length === 0 ? <h2>Loading...</h2> : <UsersList items={users} />}
     </>
   );
 };
