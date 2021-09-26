@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import Button from '../../shared/components/Button/Button';
 import Card from '../../shared/components/Card/Card';
 import Input from '../../shared/components/FormElements/Input';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import { useFrom } from '../../shared/hooks/form-hook';
 import { useHttpclient } from '../../shared/hooks/http-hook';
 import { validatorRequire } from '../../shared/util/validators';
@@ -14,6 +15,7 @@ const NewPost = () => {
     {
       title: { value: '', isValid: false },
       description: { value: '', isValid: false },
+      image: { value: null, isValid: false },
     },
     false
   );
@@ -25,16 +27,13 @@ const NewPost = () => {
   const submitHandler = async event => {
     event.preventDefault();
     try {
-      await sendRequest(
-        'http://localhost:8080/api/posts',
-        'POST',
-        JSON.stringify({
-          title: formState.inputs.title.value,
-          description: formState.inputs.description.value,
-          creator: authCtx.token,
-        }),
-        { 'Content-Type': 'application/json' }
-      );
+      const formData = new FormData();
+      formData.append('title', formState.inputs.title.value);
+      formData.append('description', formState.inputs.description.value);
+      formData.append('image', formState.inputs.image.value);
+      formData.append('creator', authCtx.token);
+
+      await sendRequest('http://localhost:8080/api/posts', 'POST', formData);
 
       history.push('/');
     } catch (err) {
@@ -46,6 +45,11 @@ const NewPost = () => {
     <Card className={classes.card}>
       <h1>New Post</h1>
       <form onSubmit={submitHandler} className={classes.form}>
+        <ImageUpload
+          id="image"
+          onInput={inputHandler}
+          errorText="Please choose an image"
+        />
         <Input
           id="title"
           element="input"

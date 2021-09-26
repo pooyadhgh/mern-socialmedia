@@ -22,7 +22,7 @@ const PostItem = props => {
   return (
     <Card className={classes['post-item']}>
       <figure className={classes['post-item__figure']}>
-        <img src={props.image} alt={props.title} />
+        <img src={`http://localhost:8080/${props.image}`} alt={props.title} />
       </figure>
       <div className={classes['post-item__content']}>
         <h2>{props.title}</h2>

@@ -3,6 +3,7 @@ const express = require('express');
 const { check } = require('express-validator');
 
 const postsControllers = require('../controllers/posts');
+const fileUpload = require('../middleware/file-upload');
 
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.get('/user/:uid', postsControllers.getPostByUserId);
 // /api/posts
 router.post(
   '/',
+  fileUpload.single('image'),
   [
     check('title').not().isEmpty(),
     check('description').not().isEmpty().isLength({ min: 5 }),

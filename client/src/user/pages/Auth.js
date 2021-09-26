@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import Button from '../../shared/components/Button/Button';
 import Card from '../../shared/components/Card/Card';
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import Input from '../../shared/components/FormElements/Input';
 import AuthContext from '../../shared/context/auth-context';
 import { useFrom } from '../../shared/hooks/form-hook';
@@ -29,6 +30,7 @@ const Auth = () => {
         {
           ...formState.inputs,
           name: undefined,
+          image: undefined,
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -37,6 +39,7 @@ const Auth = () => {
         {
           ...formState.inputs,
           name: { value: '', isValid: false },
+          image: { value: null, isValid: false },
         },
         false
       );
@@ -47,6 +50,7 @@ const Auth = () => {
 
   const submitHandler = async event => {
     event.preventDefault();
+    console.log(formState.inputs);
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
@@ -65,15 +69,16 @@ const Auth = () => {
       }
     } else {
       try {
+        const formData = new FormData();
+        formData.append('name', formState.inputs.name.value);
+        formData.append('email', formState.inputs.email.value);
+        formData.append('password', formState.inputs.password.value);
+        formData.append('image', formState.inputs.image.value);
+
         const responseData = await sendRequest(
           'http://localhost:8080/api/users/signup',
           'POST',
-          JSON.stringify({
-            name: formState.inputs.name.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-          }),
-          { 'Content-Type': 'application/json' }
+          formData
         );
 
         authCtx.login(responseData.user._id);
@@ -87,6 +92,8 @@ const Auth = () => {
     <Card className={classes.card}>
       <h1>Login</h1>
       <form onSubmit={submitHandler} className={classes.form}>
+        {!isLoginMode && <ImageUpload id="image" onInput={inputHandler} />}
+
         {!isLoginMode && (
           <Input
             element="input"
@@ -98,6 +105,7 @@ const Auth = () => {
             onInput={inputHandler}
           />
         )}
+
         <Input
           element="input"
           type="email"
