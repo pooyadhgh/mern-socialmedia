@@ -1,44 +1,37 @@
-import PostList from '../components/PostList';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useHttpclient } from '../../shared/hooks/http-hook';
+import PostList from '../components/PostList';
 
 const UserPosts = () => {
   const userId = useParams().userId;
-  const posts = [
-    {
-      id: 1,
-      image: 'https://static-cse.canva.com/image/3823/Teal17.6f16e050.png',
-      title: 'hi',
-      description:
-        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro aspernatur, libero quibusdam facilis, eius nisi eveniet in aliquam harum odit fuga, qui est sint rem quidem? Ducimus eum quis rerum.Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro aspernatur, libero quibusdam facilis, eius nisi eveniet in aliquam harum odit fuga, qui est sint rem quidem? Ducimus eum quis rerum.Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro aspernatur, libero quibusdam facilis, eius nisi eveniet in aliquam harum odit fuga, qui est sint rem quidem? Ducimus eum quis rerum.Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro aspernatur, libero quibusdam facilis, eius nisi eveniet in aliquam harum odit fuga, qui est sint rem quidem? Ducimus eum quis rerum.',
-      creator: 1,
-    },
-    {
-      id: 3,
-      image: 'https://avatars.githubusercontent.com/u/73394809?v=4',
-      title: 'hiaaaaaa',
-      description:
-        'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Porro aspernatur, libero quibusdam facilis, eius nisi eveniet in aliquam harum odit fuga, qui est sint rem quidem? Ducimus eum quis rerum.',
-      creator: 1,
-    },
-    {
-      id: 2,
-      image: 'https://avatars.githubusercontent.com/u/73394809?v=4',
-      title: 'hi2',
-      description: 'desc2',
-      creator: 2,
-    },
-    {
-      id: 4,
-      image: 'https://avatars.githubusercontent.com/u/73394809?v=4',
-      title: 'hi2',
-      description: 'desc2',
-      creator: 1,
-    },
-  ];
+  const [posts, setPosts] = useState([]);
+  const { sendRequest } = useHttpclient();
 
-  const userPosts = posts.filter(post => +post.creator === +userId);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const responseData = await sendRequest(
+          `http://localhost:8080/api/posts/user/${userId}`
+        );
+        setPosts(responseData.posts);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  return <PostList items={userPosts} />;
+    fetchUsers();
+  }, [sendRequest, userId]);
+
+  const onDeleteHandler = deletedPostId => {
+    setPosts(prevPosts => {
+      prevPosts.filter(post => post._id !== deletedPostId);
+    });
+  };
+
+  return (
+    <>{posts && <PostList items={posts} onDeletePost={onDeleteHandler} />}</>
+  );
 };
 
 export default UserPosts;

@@ -22,8 +22,6 @@ const NewPost = () => {
   const authCtx = useContext(AuthContext);
   const history = useHistory();
 
-  console.log(authCtx.token);
-
   const submitHandler = async event => {
     event.preventDefault();
     try {

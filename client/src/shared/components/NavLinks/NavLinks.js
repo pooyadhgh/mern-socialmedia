@@ -27,7 +27,7 @@ const NavLinks = () => {
         </li>
         {authCtx.isLoggedIn && (
           <li>
-            <NavLink to="/1/posts">My Posts</NavLink>
+            <NavLink to={`/${authCtx.token}/posts`}>My Posts</NavLink>
           </li>
         )}
 

@@ -3,9 +3,22 @@ import Card from '../../shared/components/Card/Card';
 import Button from '../../shared/components/Button/Button';
 import AuthContext from '../../shared/context/auth-context';
 import classes from './PostItem.module.css';
+import { useHttpclient } from '../../shared/hooks/http-hook';
 
 const PostItem = props => {
   const authCtx = useContext(AuthContext);
+  const { sendRequest } = useHttpclient();
+  const postId = props.id;
+
+  const deleteHandler = async () => {
+    try {
+      await sendRequest(`http://localhost:8080/api/posts/${postId}`, 'DELETE');
+      props.onDelete(postId);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Card className={classes['post-item']}>
       <figure className={classes['post-item__figure']}>
@@ -17,7 +30,10 @@ const PostItem = props => {
       </div>
       {authCtx.isLoggedIn && (
         <div className={classes['post-item__controlls']}>
-          <Button className={classes['post-item__controlls__button']}>
+          <Button
+            onClick={deleteHandler}
+            className={classes['post-item__controlls__button']}
+          >
             Delete
           </Button>
         </div>
