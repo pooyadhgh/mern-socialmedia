@@ -33,7 +33,11 @@ const NewPost = () => {
       formData.append('image', formState.inputs.image.value);
       formData.append('creator', authCtx.token);
 
-      await sendRequest('http://localhost:8080/api/posts', 'POST', formData);
+      await sendRequest(
+        `${process.env.REACT_APP_BASE_URL}/api/posts`,
+        'POST',
+        formData
+      );
 
       history.push('/');
     } catch (err) {

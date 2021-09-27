@@ -12,7 +12,10 @@ const PostItem = props => {
 
   const deleteHandler = async () => {
     try {
-      await sendRequest(`http://localhost:8080/api/posts/${postId}`, 'DELETE');
+      await sendRequest(
+        `${process.env.REACT_APP_BASE_URL}/api/posts/${postId}`,
+        'DELETE'
+      );
       props.onDelete(postId);
     } catch (err) {
       console.log(err);
@@ -22,7 +25,10 @@ const PostItem = props => {
   return (
     <Card className={classes['post-item']}>
       <figure className={classes['post-item__figure']}>
-        <img src={`http://localhost:8080/${props.image}`} alt={props.title} />
+        <img
+          src={`${process.env.REACT_APP_BASE_URL}/${props.image}`}
+          alt={props.title}
+        />
       </figure>
       <div className={classes['post-item__content']}>
         <h2>{props.title}</h2>

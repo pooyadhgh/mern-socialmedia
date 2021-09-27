@@ -7,7 +7,10 @@ const UserItem = props => {
     <Card className={classes['user-item']}>
       <Link to={`/${props.id}/posts`}>
         <figure>
-          <img src={`http://localhost:8080/${props.image}`} alt={props.name} />
+          <img
+            src={`${process.env.REACT_APP_BASE_URL}/${props.image}`}
+            alt={props.name}
+          />
         </figure>
       </Link>
 

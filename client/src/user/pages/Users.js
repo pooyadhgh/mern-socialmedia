@@ -10,8 +10,9 @@ const Users = () => {
     const fetchUsers = async () => {
       try {
         const responseData = await sendRequest(
-          'http://localhost:8080/api/users'
+          `${process.env.REACT_APP_BASE_URL}/api/users`
         );
+        console.log(process.env.REACT_APP_BASE_URL);
         setUsers(responseData.users);
       } catch (err) {
         console.log(err);

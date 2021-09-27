@@ -12,7 +12,7 @@ const UserPosts = () => {
     const fetchUsers = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:8080/api/posts/user/${userId}`
+          `${process.env.REACT_APP_BASE_URL}/api/posts/user/${userId}`
         );
         setPosts(responseData.posts);
       } catch (err) {
@@ -25,8 +25,10 @@ const UserPosts = () => {
 
   const onDeleteHandler = deletedPostId => {
     setPosts(prevPosts => {
-      prevPosts.filter(post => post._id !== deletedPostId);
+      return prevPosts.filter(post => post._id !== deletedPostId);
     });
+    console.log(deletedPostId);
+    console.log(posts);
   };
 
   return (
