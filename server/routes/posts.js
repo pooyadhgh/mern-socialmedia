@@ -4,6 +4,7 @@ const { check } = require('express-validator');
 
 const postsControllers = require('../controllers/posts');
 const fileUpload = require('../middleware/file-upload');
+const checkAuth = require('../middleware/check-auth');
 
 const router = express.Router();
 
@@ -12,6 +13,9 @@ router.get('/:pid', postsControllers.getPostById);
 
 // /api/posts/user/:uid
 router.get('/user/:uid', postsControllers.getPostByUserId);
+
+// Protected routes
+router.use(checkAuth);
 
 // /api/posts
 router.post(

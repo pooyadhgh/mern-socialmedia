@@ -31,12 +31,15 @@ const NewPost = () => {
       formData.append('title', formState.inputs.title.value);
       formData.append('description', formState.inputs.description.value);
       formData.append('image', formState.inputs.image.value);
-      formData.append('creator', authCtx.token);
+      formData.append('creator', authCtx.userId);
 
       await sendRequest(
         `${process.env.REACT_APP_BASE_URL}/api/posts`,
         'POST',
-        formData
+        formData,
+        {
+          Authorization: 'Bearer ' + authCtx.token,
+        }
       );
 
       history.push('/');

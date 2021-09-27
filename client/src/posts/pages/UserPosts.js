@@ -27,8 +27,6 @@ const UserPosts = () => {
     setPosts(prevPosts => {
       return prevPosts.filter(post => post._id !== deletedPostId);
     });
-    console.log(deletedPostId);
-    console.log(posts);
   };
 
   return (

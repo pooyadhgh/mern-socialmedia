@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const HttpError = require('../models/httpError');
 const User = require('../models/user');
@@ -36,10 +38,19 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
+  // Hash password
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    const error = new HttpError('Could Not Create User', 500);
+    return next(error);
+  }
+
   const createdUser = new User({
     name: name,
     email: email,
-    password: password,
+    password: hashedPassword,
     image: req.file.path,
     posts: [],
   });
@@ -50,9 +61,25 @@ const signup = async (req, res, next) => {
     const error = new HttpError('Signup Failed', 500);
     return next(error);
   }
-  // TODO: Delete password from user document
 
-  res.status(201).json({ message: 'User Signedup', user: createdUser });
+  let token;
+
+  try {
+    token = await jwt.sign(
+      { userId: createdUser.id, email: createdUser.email },
+      process.env.JWT_KEY
+    );
+  } catch (err) {
+    const error = new HttpError('Signup Failed', 500);
+    return next(error);
+  }
+
+  res.status(201).json({
+    message: 'User Signedup',
+    userId: createdUser.id,
+    email: createdUser.email,
+    token: token,
+  });
 };
 
 const login = async (req, res, next) => {
@@ -68,12 +95,42 @@ const login = async (req, res, next) => {
   }
 
   // Check if user entered correct password
-  if (!existingUser || existingUser.password !== password) {
-    throw new HttpError('Not a Valid User', 401);
+  if (!existingUser) {
+    const error = new HttpError('Invalid Inputs', 401);
+    return next(error);
   }
-  // TODO: Delete password from user document
 
-  res.json({ message: 'User Logged in', user: existingUser });
+  let isValidPassword = false;
+  try {
+    isValidPassword = await bcrypt.compare(password, existingUser.password);
+  } catch (err) {
+    const error = new HttpError('Could Not Login', 500);
+    return next(error);
+  }
+
+  if (!isValidPassword) {
+    const error = new HttpError('Invalid Inputs', 401);
+    return next(error);
+  }
+
+  let token;
+
+  try {
+    token = await jwt.sign(
+      { userId: existingUser.id, email: existingUser.email },
+      process.env.JWT_KEY
+    );
+  } catch (err) {
+    const error = new HttpError('Login Failed', 500);
+    return next(error);
+  }
+
+  res.json({
+    message: 'User Logged in',
+    userId: existingUser.id,
+    email: existingUser.email,
+    token: token,
+  });
 };
 
-module.exports = { getUsers: getUsers, signup: signup, login: login };
+module.exports = { getUsers, signup, login };

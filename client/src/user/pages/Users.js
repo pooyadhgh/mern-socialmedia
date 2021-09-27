@@ -12,7 +12,6 @@ const Users = () => {
         const responseData = await sendRequest(
           `${process.env.REACT_APP_BASE_URL}/api/users`
         );
-        console.log(process.env.REACT_APP_BASE_URL);
         setUsers(responseData.users);
       } catch (err) {
         console.log(err);

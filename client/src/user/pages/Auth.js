@@ -50,7 +50,6 @@ const Auth = () => {
 
   const submitHandler = async event => {
     event.preventDefault();
-    console.log(formState.inputs);
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
@@ -62,7 +61,7 @@ const Auth = () => {
           }),
           { 'Content-Type': 'application/json' }
         );
-        authCtx.login(responseData.user._id);
+        authCtx.login(responseData.userId, responseData.token);
         history.push('/');
       } catch (err) {
         throw err;
@@ -81,7 +80,8 @@ const Auth = () => {
           formData
         );
 
-        authCtx.login(responseData.user._id);
+        authCtx.login(responseData.userId, responseData.token);
+
         history.push('/');
       } catch (err) {
         throw err;

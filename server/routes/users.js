@@ -15,7 +15,11 @@ router.post(
   fileUpload.single('image'),
   [
     check('name').not().isEmpty(),
-    check('email').normalizeEmail().isEmail().not().isEmpty(),
+    check('email')
+      .normalizeEmail({ gmail_remove_dots: false })
+      .isEmail()
+      .not()
+      .isEmpty(),
     check('password').not().isEmpty().isLength({ min: 5 }),
   ],
   usersControllers.signup

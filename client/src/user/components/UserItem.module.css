@@ -6,7 +6,8 @@
 
 .user-item img {
   border-radius: 50%;
-  max-width: 100px;
+  height: 100px;
+  width: 100px;
 }
 
 .user-item__info {

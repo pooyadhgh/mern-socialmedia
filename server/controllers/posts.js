@@ -118,8 +118,8 @@ const deletePostById = async (req, res, next) => {
 };
 
 module.exports = {
-  getPostById: getPostById,
-  getPostByUserId: getPostByUserId,
-  createPost: createPost,
-  deletePostById: deletePostById,
+  getPostById,
+  getPostByUserId,
+  createPost,
+  deletePostById,
 };

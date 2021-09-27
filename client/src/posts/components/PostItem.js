@@ -14,7 +14,11 @@ const PostItem = props => {
     try {
       await sendRequest(
         `${process.env.REACT_APP_BASE_URL}/api/posts/${postId}`,
-        'DELETE'
+        'DELETE',
+        null,
+        {
+          Authorization: 'Bearer ' + authCtx.token,
+        }
       );
       props.onDelete(postId);
     } catch (err) {
@@ -34,7 +38,8 @@ const PostItem = props => {
         <h2>{props.title}</h2>
         <p>{props.description}</p>
       </div>
-      {authCtx.isLoggedIn && (
+
+      {authCtx.isLoggedIn && authCtx.userId === props.creatorId && (
         <div className={classes['post-item__controlls']}>
           <Button
             onClick={deleteHandler}
