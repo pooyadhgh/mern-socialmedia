@@ -26,6 +26,20 @@ app.use((req, res, next) => {
 app.use('/api/posts', postsRoutes);
 app.use('/api/users', usersRoutes);
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+
+  app.get('*', (req, res) =>
+    res.sendFile(
+      path.resolve(__dirname, '../', 'client', 'build', 'index.html')
+    )
+  );
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running....');
+  });
+}
+
 // Notfound error middleware
 app.use((req, res, next) => {
   const error = new HttpError('Not Found', 404);
@@ -34,9 +48,9 @@ app.use((req, res, next) => {
 
 // Error handling middleware
 app.use((error, req, res, next) => {
-  if (req.file) {
-    fs.unlink(req.file.path, err => console.log(err));
-  }
+  // if (req.file) {
+  //   fs.unlink(req.file.path, err => console.log(err));
+  // }
 
   if (res.headerSet) {
     return next(error);
