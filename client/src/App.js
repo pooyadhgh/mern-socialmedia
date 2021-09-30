@@ -5,6 +5,7 @@ import UserPosts from './posts/pages/UserPosts';
 import Layout from './shared/components/Layout/Layout';
 import AuthContext from './shared/context/auth-context';
 import Auth from './user/pages/Auth';
+import ResetPassword from './user/pages/ResetPassword';
 import Users from './user/pages/Users';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/:userId/posts" component={UserPosts} />
         <Route path="/posts/new" component={NewPost} exact />
         <Route path="/auth" component={Auth} />
+        <Route path="/reset-password/:token?" component={ResetPassword} />
 
         <Route path="*">
           <Redirect to="/" />
@@ -29,6 +31,7 @@ function App() {
         <Route path="/" component={Users} exact />
         <Route path="/:userId/posts" component={UserPosts} />
         <Route path="/auth" component={Auth} />
+        <Route path="/reset-password/:token?" component={ResetPassword} />
 
         <Route path="*">
           <Redirect to="/auth" />

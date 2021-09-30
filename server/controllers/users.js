@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 const HttpError = require('../models/httpError');
 const User = require('../models/user');
+const sendEmail = require('../utils/sendEmail');
 
 const getUsers = async (req, res, next) => {
   let users;
@@ -133,4 +134,114 @@ const login = async (req, res, next) => {
   });
 };
 
-module.exports = { getUsers, signup, login };
+const resetPassword = async (req, res, next) => {
+  const { email } = req.body;
+  let existingUser;
+
+  // Check whether user exists or not
+  try {
+    existingUser = await User.findOne({ email: email });
+  } catch (err) {
+    const error = new HttpError('Finding User Failed', 500);
+    return next(error);
+  }
+
+  if (!existingUser) {
+    const error = new HttpError('User Not Found', 401);
+    return next(error);
+  }
+
+  let token;
+
+  try {
+    token = await jwt.sign(
+      { userId: existingUser.id, email: existingUser.email },
+      process.env.JWT_KEY,
+      { expiresIn: '1h' }
+    );
+  } catch (err) {
+    const error = new HttpError('Login Failed', 500);
+    return next(error);
+  }
+
+  sendEmail(
+    existingUser.email,
+    'Password Reset',
+    `
+    To reset your password please click on the link below:
+
+    ${process.env.BASE_URL}/reset-password/${token}
+    `
+  );
+
+  res.json({
+    message: 'Email Sent',
+    userId: existingUser.id,
+    email: existingUser.email,
+  });
+};
+
+const resetPasswordWithToken = async (req, res, next) => {
+  // Validate request body
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    throw new HttpError('Invalid Input', 422);
+  }
+
+  const token = req.params.token;
+  const { password } = req.body;
+
+  if (!token) {
+    const error = new HttpError('Auth Failed', 401);
+    return next(error);
+  }
+
+  const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+
+  let user;
+
+  // Check whether user exists or not
+  try {
+    user = await User.findOne({ email: decodedToken.email });
+  } catch (err) {
+    const error = new HttpError('Finding User Failed', 500);
+    return next(error);
+  }
+
+  if (!user) {
+    const error = new HttpError('User Not Found', 401);
+    return next(error);
+  }
+
+  // Hash password
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    const error = new HttpError('Could Not Create User', 500);
+    return next(error);
+  }
+
+  user.password = hashedPassword;
+
+  try {
+    await user.save();
+  } catch (err) {
+    const error = new HttpError('Changing Password Failed', 500);
+    return next(error);
+  }
+
+  res.json({
+    message: 'Password Changed Successfully',
+    userId: user.id,
+    email: user.email,
+  });
+};
+
+module.exports = {
+  getUsers,
+  signup,
+  login,
+  resetPassword,
+  resetPasswordWithToken,
+};

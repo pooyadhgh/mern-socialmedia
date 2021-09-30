@@ -28,4 +28,14 @@ router.post(
 // /api/users/login
 router.post('/login', usersControllers.login);
 
+// /api/users/reset-password
+router.post('/reset-password', usersControllers.resetPassword);
+
+// /api/users/reset-password/:token
+router.post(
+  '/reset-password/:token',
+  [check('password').not().isEmpty().isLength({ min: 5 })],
+  usersControllers.resetPasswordWithToken
+);
+
 module.exports = router;

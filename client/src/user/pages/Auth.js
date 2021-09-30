@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import Button from '../../shared/components/Button/Button';
@@ -150,6 +151,10 @@ const Auth = () => {
           </u>
         </p>
       )}
+
+      <Link to="/reset-password">
+        <u>Forgot your password?</u>
+      </Link>
     </Card>
   );
 };
