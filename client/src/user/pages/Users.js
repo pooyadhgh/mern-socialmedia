@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useHttpclient } from '../../shared/hooks/http-hook';
 import UsersList from '../components/UsersList';
 
@@ -14,10 +15,9 @@ const Users = () => {
         );
         setUsers(responseData.users);
       } catch (err) {
-        console.log(err);
+        toast.error('Something went wrong, Please try again');
       }
     };
-
     fetchUsers();
   }, [sendRequest]);
 

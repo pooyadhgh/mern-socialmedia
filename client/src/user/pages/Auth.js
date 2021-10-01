@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 import Button from '../../shared/components/Button/Button';
 import Card from '../../shared/components/Card/Card';
 import ImageUpload from '../../shared/components/FormElements/ImageUpload';
@@ -62,10 +63,12 @@ const Auth = () => {
           }),
           { 'Content-Type': 'application/json' }
         );
+
         authCtx.login(responseData.userId, responseData.token);
         history.push('/');
+        toast.success('Welcome Back!');
       } catch (err) {
-        throw err;
+        toast.error(`Something went wrong: ${err.message}`);
       }
     } else {
       try {
@@ -84,8 +87,9 @@ const Auth = () => {
         authCtx.login(responseData.userId, responseData.token);
 
         history.push('/');
+        toast.success('Welcome to MERN-SocialMedia');
       } catch (err) {
-        throw err;
+        toast.error(`Something went wrong: ${err.message}`);
       }
     }
   };

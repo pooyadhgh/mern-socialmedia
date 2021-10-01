@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import { useHttpclient } from '../../shared/hooks/http-hook';
 import PostList from '../components/PostList';
@@ -16,7 +17,7 @@ const UserPosts = () => {
         );
         setPosts(responseData.posts);
       } catch (err) {
-        console.log(err);
+        toast.error('Something went wrong, Please try again');
       }
     };
 
@@ -27,6 +28,7 @@ const UserPosts = () => {
     setPosts(prevPosts => {
       return prevPosts.filter(post => post._id !== deletedPostId);
     });
+    toast.success('Post deleted succesfully');
   };
 
   return (

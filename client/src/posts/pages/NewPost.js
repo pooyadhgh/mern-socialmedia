@@ -8,6 +8,7 @@ import { useHttpclient } from '../../shared/hooks/http-hook';
 import { validatorRequire } from '../../shared/util/validators';
 import AuthContext from '../../shared/context/auth-context';
 import classes from './NewPost.module.css';
+import { toast } from 'react-toastify';
 import { useHistory } from 'react-router';
 
 const NewPost = () => {
@@ -42,9 +43,10 @@ const NewPost = () => {
         }
       );
 
+      toast.success('New post added succesfully');
       history.push('/');
     } catch (err) {
-      console.log(err);
+      toast.error('Something went wrong, Please try again');
     }
   };
 

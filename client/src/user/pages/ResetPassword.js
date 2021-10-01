@@ -1,4 +1,5 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Button from '../../shared/components/Button/Button';
 import Card from '../../shared/components/Card/Card';
 import Input from '../../shared/components/FormElements/Input';
@@ -9,6 +10,7 @@ import classes from './ResetPassword.module.css';
 
 const ResetPassword = () => {
   const { token } = useParams();
+  const history = useHistory();
   const { sendRequest } = useHttpclient();
 
   const [formState, inputHandler] = useFrom(
@@ -23,7 +25,7 @@ const ResetPassword = () => {
     event.preventDefault();
     if (token) {
       try {
-        const responseData = await sendRequest(
+        await sendRequest(
           `${process.env.REACT_APP_BASE_URL}/api/users/reset-password/${token}`,
           'POST',
           JSON.stringify({
@@ -31,13 +33,14 @@ const ResetPassword = () => {
           }),
           { 'Content-Type': 'application/json' }
         );
-        console.log(responseData);
+        history.push('/auth');
+        toast.success('Your password has been changed');
       } catch (err) {
-        throw err;
+        toast.error(`Something went wrong: ${err.message}`);
       }
     } else {
       try {
-        const responseData = await sendRequest(
+        await sendRequest(
           `${process.env.REACT_APP_BASE_URL}/api/users/reset-password`,
           'POST',
           JSON.stringify({
@@ -45,9 +48,9 @@ const ResetPassword = () => {
           }),
           { 'Content-Type': 'application/json' }
         );
-        console.log(responseData);
+        toast.success('Please check your email');
       } catch (err) {
-        throw err;
+        toast.error(`Something went wrong: ${err.message}`);
       }
     }
   };
